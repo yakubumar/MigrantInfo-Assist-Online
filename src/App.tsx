@@ -111,10 +111,9 @@ const buildDoc = (cols: string[][], sourceUrl = ''): Document => {
         ...(sourceUrl && /^https?:\/\//i.test(sourceUrl) ? [
           new Paragraph({
             children: [
-              new TextRun({ text: 'Манба: ', bold: true, size: 20, font: 'Calibri' }),
-              new ExternalHyperlink({ link: sourceUrl, children: [new TextRun({ text: sourceUrl, style: 'Hyperlink', size: 20, font: 'Calibri' })] })
+              new ExternalHyperlink({ link: sourceUrl, children: [new TextRun({ text: sourceUrl, style: 'Hyperlink', size: 28, font: 'Calibri' })] })
             ],
-            spacing: { before: 240, after: 120 }
+            spacing: { before: 280, after: 200 }
           })
         ] : [])
       ]
