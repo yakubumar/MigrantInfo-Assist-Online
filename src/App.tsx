@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Document, Packer, Paragraph, Table, TableRow, TableCell, WidthType, TextRun, BorderStyle, PageOrientation } from 'docx';
+import { Document, Packer, Paragraph, Table, TableRow, TableCell, WidthType, TextRun, BorderStyle, PageOrientation, ExternalHyperlink } from 'docx';
 
 const cyrillicToLatinUz = (text: string): string => {
   if (!text) return '';
@@ -92,7 +92,7 @@ async function api<T = any>(path: string, body: object): Promise<T> {
 }
 
 // Word: битта жадвал, икки устун (русча | ўзбекча), қалин сарлавҳа + матн
-const buildDoc = (cols: string[][]): Document => {
+const buildDoc = (cols: string[][], sourceUrl = ''): Document => {
   const line = { style: BorderStyle.SINGLE, size: 4, color: '000000' };
   const borders = { top: line, bottom: line, left: line, right: line };
   const cells = cols.map(ls => {
@@ -106,7 +106,18 @@ const buildDoc = (cols: string[][]): Document => {
   return new Document({
     sections: [{
       properties: { page: { size: { orientation: PageOrientation.PORTRAIT }, margin: { top: 720, right: 720, bottom: 720, left: 720 } } },
-      children: [new Table({ width: { size: 100, type: WidthType.PERCENTAGE }, rows: [new TableRow({ children: cells })] })]
+      children: [
+        new Table({ width: { size: 100, type: WidthType.PERCENTAGE }, rows: [new TableRow({ children: cells })] }),
+        ...(sourceUrl && /^https?:\\/\\//i.test(sourceUrl) ? [
+          new Paragraph({
+            children: [
+              new TextRun({ text: 'Манба: ', bold: true, size: 20, font: 'Calibri' }),
+              new ExternalHyperlink({ link: sourceUrl, children: [new TextRun({ text: sourceUrl, style: 'Hyperlink', size: 20, font: 'Calibri' })] })
+            ],
+            spacing: { before: 240, after: 120 }
+          })
+        ] : [])
+      ]
     }]
   });
 };
@@ -114,6 +125,7 @@ const buildDoc = (cols: string[][]): Document => {
 export default function App() {
   const [mode, setMode] = useState<'url' | 'text'>('url');
   const [url, setUrl] = useState('');
+  const [sourceUrl, setSourceUrl] = useState('');
   const [text, setText] = useState('');
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [busy, setBusy] = useState<Busy>(null);
@@ -137,7 +149,9 @@ export default function App() {
     if (mode === 'text' && text.trim().length < 50) throw new Error('Илтимос, мақола матнини киритинг (камида 50 белги).');
     const d = await api('/api/process-article', { inputMode: mode, url: url.trim(), inputText: text, stylePrompt: '' });
     const hs: string[] = d.headlines || [];
-    setRu(d.rewrittenText || ''); setHeadlines(hs); setHeadline(hs[0] || ''); setStep(2);
+    setRu(d.rewrittenText || ''); setHeadlines(hs); setHeadline(hs[0] || '');
+    setSourceUrl(mode === 'url' ? (/^https?:\\/\\//i.test(url.trim()) ? url.trim() : `https://${url.trim()}`) : '');
+    setStep(2);
   });
 
   const moreHeadlines = () => run('headlines', async () => {
@@ -162,7 +176,7 @@ export default function App() {
   const saveWord = () => run('word', async () => {
     const left = lines(ruFull), right = lines(cyrillicToLatinUz(uz));
     if (!left.length || !right.length) throw new Error('Аввал таржимани тайёрланг.');
-    const blob = await Packer.toBlob(buildDoc([left, right]));
+    const blob = await Packer.toBlob(buildDoc([left, right], sourceUrl));
     const name = (left[0].split(/\s+/).slice(0, 4).join(' ').replace(/[^\p{L}\p{N}\s_-]/gu, '').trim() || 'Maqola') + '.docx';
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove();
@@ -170,7 +184,7 @@ export default function App() {
     setNote(`Файл сақланди: ${name} («Загрузки» папкаси).`);
   });
 
-  const restart = () => { setStep(1); setUrl(''); setText(''); setRu(''); setRuFull(''); setUz(''); setHeadlines([]); setHeadline(''); setError(''); setNote(''); };
+  const restart = () => { setStep(1); setUrl(''); setSourceUrl(''); setText(''); setRu(''); setRuFull(''); setUz(''); setHeadlines([]); setHeadline(''); setError(''); setNote(''); };
   const wait = (k: Busy, label: string, idle: string) => (busy === k ? '⏳ ' + label : idle);
 
   return (
