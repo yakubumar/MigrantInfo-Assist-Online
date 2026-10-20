@@ -108,7 +108,7 @@ const buildDoc = (cols: string[][], sourceUrl = ''): Document => {
       properties: { page: { size: { orientation: PageOrientation.PORTRAIT }, margin: { top: 720, right: 720, bottom: 720, left: 720 } } },
       children: [
         new Table({ width: { size: 100, type: WidthType.PERCENTAGE }, rows: [new TableRow({ children: cells })] }),
-        ...(sourceUrl && /^https?:\\/\\//i.test(sourceUrl) ? [
+        ...(sourceUrl && /^https?:\/\//i.test(sourceUrl) ? [
           new Paragraph({
             children: [
               new TextRun({ text: 'Манба: ', bold: true, size: 20, font: 'Calibri' }),
@@ -150,7 +150,7 @@ export default function App() {
     const d = await api('/api/process-article', { inputMode: mode, url: url.trim(), inputText: text, stylePrompt: '' });
     const hs: string[] = d.headlines || [];
     setRu(d.rewrittenText || ''); setHeadlines(hs); setHeadline(hs[0] || '');
-    setSourceUrl(mode === 'url' ? (/^https?:\\/\\//i.test(url.trim()) ? url.trim() : `https://${url.trim()}`) : '');
+    setSourceUrl(mode === 'url' ? (/^https?:\/\//i.test(url.trim()) ? url.trim() : `https://${url.trim()}`) : '');
     setStep(2);
   });
 
