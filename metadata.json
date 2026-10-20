@@ -1,0 +1,6 @@
+{
+  "name": "Remix: Remix: Article Simplifier for Migrants",
+  "description": "Translates and rewrites articles into simple language for migrants, with headline options and Uzbek translation (Cyrillic \u0026 Latin).",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

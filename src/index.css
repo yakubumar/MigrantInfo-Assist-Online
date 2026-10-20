@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+:root{
+  color-scheme:dark;
+  --bg:#070b17; --ink:#edf3ff; --card:rgba(16,24,45,.82); --field:#0b1225;
+  --muted:#9aa9c7; --line:rgba(144,170,220,.2); --cyan:#54e7f5; --blue:#758bff;
+  --mint:#64f5c2; --coral:#ff719b; --on:#07111e; --glow:rgba(84,231,245,.16);
+}
+*{box-sizing:border-box}
+html{min-height:100%;scroll-behavior:smooth}
+body{margin:0;min-height:100vh;color:var(--ink);font-family:'Manrope',system-ui,'Segoe UI',Arial,sans-serif;line-height:1.55;
+ background:radial-gradient(ellipse at 12% 0%,rgba(69,91,190,.22),transparent 35%),radial-gradient(ellipse at 92% 20%,rgba(30,203,218,.13),transparent 28%),var(--bg);
+ background-attachment:fixed}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.23;background-image:linear-gradient(rgba(113,149,205,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(113,149,205,.07) 1px,transparent 1px);background-size:36px 36px;mask-image:linear-gradient(to bottom,black,transparent 90%);z-index:-1}
+button,input,textarea{font:inherit}
+button{touch-action:manipulation}
+.wrap{width:min(1120px,100%);margin:0 auto;padding:32px 22px 72px}
+header{position:relative;overflow:hidden;padding:clamp(25px,5vw,48px);border:1px solid rgba(108,232,248,.32);border-radius:28px;background:linear-gradient(120deg,rgba(20,35,67,.96),rgba(13,23,45,.88));box-shadow:0 22px 80px rgba(0,0,0,.28),inset 0 1px rgba(255,255,255,.07);backdrop-filter:blur(18px)}
+header:after{content:"";position:absolute;width:300px;height:300px;right:-90px;top:-130px;border-radius:50%;border:1px solid rgba(84,231,245,.22);box-shadow:0 0 0 28px rgba(84,231,245,.035),0 0 0 58px rgba(84,231,245,.025),inset 0 0 65px rgba(84,231,245,.09);pointer-events:none}
+header:before{content:"✳";position:absolute;right:75px;top:42px;color:var(--cyan);font-size:56px;opacity:.7;text-shadow:0 0 30px var(--cyan)}
+header h1{position:relative;margin:0;font-size:clamp(30px,5.5vw,54px);font-weight:800;letter-spacing:-1.8px;line-height:1.12;max-width:760px;background:linear-gradient(90deg,#fff 0%,#b9f8ff 58%,#8fa5ff 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+header p{position:relative;margin:14px 0 0;max-width:700px;color:#b9c7e3;font-size:clamp(14px,2vw,17px)}
+.step{position:relative;margin:28px 0 0;padding:30px clamp(18px,3vw,34px) 28px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(145deg,rgba(18,28,51,.91),rgba(10,17,34,.92));box-shadow:0 18px 50px rgba(0,0,0,.18),inset 0 1px rgba(255,255,255,.035);backdrop-filter:blur(14px)}
+.num{position:absolute;top:24px;right:28px;width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--cyan),var(--blue))!important;color:#07111e!important;border:0;font-weight:800;font-size:17px;box-shadow:0 0 26px rgba(84,231,245,.18)}
+.step h2{margin:0 60px 22px 0;font-size:clamp(19px,2.5vw,24px);font-weight:800;letter-spacing:-.4px}
+textarea,input[type=text]{width:100%;min-width:0;color:var(--ink);background:rgba(4,10,24,.76);border:1px solid rgba(139,164,215,.28);border-radius:14px;padding:14px 16px;resize:vertical;transition:border-color .18s,box-shadow .18s}
+textarea{min-height:180px;line-height:1.65}
+textarea.mid{margin-top:14px;min-height:260px}
+textarea:focus,input:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(84,231,245,.12),0 0 26px rgba(84,231,245,.06)}
+.tabs{display:flex;gap:8px;margin-bottom:14px;padding:5px;width:max-content;max-width:100%;border:1px solid var(--line);border-radius:14px;background:rgba(4,10,24,.5)}
+.tab{font:inherit;font-weight:700;color:var(--muted);background:transparent;border:1px solid transparent;border-radius:10px;padding:9px 17px;cursor:pointer;transition:.18s}
+.tab:hover{color:var(--ink)}.tab.on{color:#07111e;background:linear-gradient(100deg,var(--cyan),#9cf6e1);box-shadow:0 5px 18px rgba(84,231,245,.15)}
+.btn{font:inherit;font-weight:800;font-size:15px;color:#07111e;border:0;border-radius:12px;padding:13px 19px;margin-top:14px;cursor:pointer;background:linear-gradient(110deg,var(--cyan),#a1f4df);box-shadow:0 7px 24px rgba(84,231,245,.13);transition:transform .18s,filter .18s,box-shadow .18s}
+.btn:hover:not(:disabled){transform:translateY(-2px);filter:brightness(1.07);box-shadow:0 10px 30px rgba(84,231,245,.22)}
+.btn:active:not(:disabled){transform:translateY(0)}.btn:disabled{opacity:.55;cursor:wait}
+.b1{background:linear-gradient(110deg,var(--cyan),#8ea7ff)}.b2{background:linear-gradient(110deg,#8ea7ff,#c1b4ff)}.b4{background:linear-gradient(110deg,var(--mint),var(--cyan));font-size:16px}
+.ghost{background:rgba(113,140,190,.09);color:var(--ink);border:1px solid var(--line);box-shadow:none;font-size:14px}
+.ghost:hover:not(:disabled){background:rgba(113,140,190,.16);box-shadow:0 8px 25px rgba(0,0,0,.12)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.chip{font:inherit;font-weight:600;font-size:13px;text-align:left;color:#c4d3ef;background:rgba(94,121,176,.1);border:1px solid var(--line);border-radius:999px;padding:8px 13px;cursor:pointer;transition:.18s}
+.chip:hover{border-color:rgba(84,231,245,.5)}.chip.on{background:rgba(84,231,245,.13);border-color:var(--cyan);color:#b8f9ff}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.cols label{display:block;font-weight:700;margin:0 0 8px;color:#c8d7f2}
+.cols textarea{min-height:320px}
+.hint{color:var(--muted);font-size:13px;margin:12px 0 0}
+.err,.ok{border:1px solid;border-radius:14px;padding:12px 16px;margin-top:20px;font-weight:600}
+.err{background:rgba(255,113,155,.1);border-color:rgba(255,113,155,.5);color:#ffb4ca}.ok{background:rgba(100,245,194,.09);border-color:rgba(100,245,194,.4);color:#a9ffe0}
+::placeholder{color:#697b9d;opacity:1}
+@media(max-width:700px){
+ .wrap{padding:14px 12px 42px}header{border-radius:21px;padding:27px 20px}header:before{right:22px;top:22px;font-size:34px;opacity:.45}header:after{right:-190px}
+ .step{padding:24px 16px 20px;margin-top:20px;border-radius:19px}.num{top:18px;right:17px;width:35px;height:35px;border-radius:11px}.step h2{margin-right:42px;margin-bottom:18px}
+ .cols{grid-template-columns:1fr}.cols textarea{min-height:230px}textarea.mid{min-height:220px}
+ .btn{width:100%;margin-top:10px}.row{gap:7px}.row .btn{flex:1 1 100%}.tabs{width:100%}.tab{flex:1;padding:10px 12px}
+}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
