@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { saveAs } from 'file-saver';
 import { Document, Packer, Paragraph, Table, TableRow, TableCell, WidthType, TextRun, BorderStyle, PageOrientation, ExternalHyperlink } from 'docx';
 
 const cyrillicToLatinUz = (text: string): string => {
@@ -177,10 +178,8 @@ export default function App() {
     if (!left.length || !right.length) throw new Error('Аввал таржимани тайёрланг.');
     const blob = await Packer.toBlob(buildDoc([left, right], sourceUrl));
     const name = (left[0].split(/\s+/).slice(0, 4).join(' ').replace(/[^\p{L}\p{N}\s_-]/gu, '').trim() || 'Maqola') + '.docx';
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(() => URL.revokeObjectURL(a.href), 2000);
-    setNote(`Файл сақланди: ${name} («Загрузки» папкаси).`);
+    saveAs(blob, name);
+    setNote(`Word файли юклаб олишга юборилди: ${name}. Android телефонида Chrome орқали юкласангиз, одатда «Загрузки / Downloads» папкасига сақланади.`);
   });
 
   const restart = () => { setStep(1); setUrl(''); setSourceUrl(''); setText(''); setRu(''); setRuFull(''); setUz(''); setHeadlines([]); setHeadline(''); setError(''); setNote(''); };
